@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="127" height="127" viewBox="0 0 127 127">
+  <defs>
+    <!-- Filtro per l'effetto alone -->
+    <filter id="Path_19" x="0" y="0" width="127" height="127" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#fff" flood-opacity="0.529"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+
+    <!-- Gradiente che sfuma solo negli angoli -->
+    <linearGradient id="cornerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <!-- Colore chiaro al centro (senza sfumatura al centro) -->
+      <stop offset="50%" stop-color="rgba(56,56,56,1)" />
+      <!-- Colore scuro (per la sfumatura solo agli angoli) -->
+      <stop offset="100%" stop-color="rgba(28,28,28,1)" />
+    </linearGradient>
+  </defs>
+  
+  <g id="Group_66" data-name="Group 66" transform="translate(308 -586)">
+    <g transform="matrix(1, 0, 0, 1, -308, 586)" filter="url(#Path_19)">
+      <!-- Il quadrato con la sfumatura solo agli angoli -->
+      <path id="Path_19-2" data-name="Path 19" d="M10,0H87A10,10,0,0,1,97,10V87A10,10,0,0,1,87,97H10A10,10,0,0,1,0,87V10A10,10,0,0,1,10,0Z" transform="translate(15 15)" fill="url(#cornerGradient)" />
+    </g>
+    <text id="Alt" transform="translate(-244 656)" fill="#fafffd" font-size="20" font-family="LucidaConsole, Lucida Console"><tspan x="-18.076" y="0">Alt</tspan></text>
+  </g>
+</svg>

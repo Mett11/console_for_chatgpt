@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="202" height="89" viewBox="0 0 202 89">
+  <defs>
+    <filter id="Rectangle_40" x="0" y="0" width="202" height="89" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#fff" flood-opacity="0.529"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+
+    <!-- Gradiente per angoli con effetto sfumato -->
+    <linearGradient id="cornerGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="50%" stop-color="rgba(56,56,56,1)" />
+      <stop offset="100%" stop-color="rgba(28,28,28,1)" />
+    </linearGradient>
+  </defs>
+  
+  <g id="Group_63" data-name="Group 63" transform="translate(315 -286)">
+    <g transform="matrix(1, 0, 0, 1, -315, 286)" filter="url(#Rectangle_40)">
+      <!-- Applicato il gradiente agli angoli -->
+      <rect id="Rectangle_40-2" data-name="Rectangle 40" width="172" height="59" rx="10" transform="translate(15 15)" fill="url(#cornerGradient2)"/>
+    </g>
+    <g id="Icon_feather-delete" data-name="Icon feather-delete" transform="translate(-179.2 315)">
+      <path id="Path_16" data-name="Path 16" d="M25.962,6h-15.9L1.5,15.785l8.562,9.785h15.9a2.446,2.446,0,0,0,2.446-2.446V8.446A2.446,2.446,0,0,0,25.962,6Z" fill="none" stroke="#fafffd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_17" data-name="Path 17" d="M25.339,13.5,18,20.839" transform="translate(-3.046 -1.384)" fill="none" stroke="#fafffd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Path_18" data-name="Path 18" d="M18,13.5l7.339,7.339" transform="translate(-3.046 -1.384)" fill="none" stroke="#fafffd" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+    </g>
+  </g>
+</svg>

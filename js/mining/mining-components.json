@@ -1,0 +1,486 @@
+{
+    "components": [
+
+        {
+            "type": "CPU",
+            "items": [
+                {
+                    "level": 1,
+                    "name": "Intellix C1",
+                    "price_cns": 1000,
+                    "mining_profit_cns": 10,
+                    "price_usdt": null,
+                    "description": "CPU base, semplice ma efficiente.",
+                    "src": "./img/item-hw/cpu/iC1.png"
+                },
+                {
+                    "level": 2,
+                    "name": "Intellix C2",
+                    "price_cns": 5000,
+                    "mining_profit_cns": 20,
+                    "price_usdt": null,
+                    "description": "CPU di livello 2, performance migliorata.",
+                    "src": "./img/item-hw/cpu/iC2.png"
+                },
+                {
+                    "level": 3,
+                    "name": "HyperCore C3",
+                    "price_cns": 10000,
+                    "mining_profit_cns": 40,
+                    "price_usdt": null,
+                    "description": "CPU potente di livello 3.",
+                    "src": "./img/item-hw/cpu/iC3.png"
+                },
+                {
+                    "level": 4,
+                    "name": "HyperCore C4",
+                    "price_cns": 15000,
+                    "mining_profit_cns": 80,
+                    "price_usdt": null,
+                    "description": "CPU avanzata di livello 4.",
+                    "src": "./img/item-hw/cpu/iC4.png"
+                },
+                {
+                    "level": 5,
+                    "name": "HyperCore C5",
+                    "price_cns": null,
+                    "mining_profit_cns": 150,
+                    "price_usdt": 0.01,
+                    "description": "CPU top di gamma, molto potente.",
+                    "src": "./img/item-hw/cpu/iC5.png"
+                },
+                {
+                    "level": 6,
+                    "name": "CoreX 600",
+                    "price_cns": null,
+                    "mining_profit_cns": 300,
+                    "price_usdt": 3.00,
+                    "description": "CPU di livello 6, sbloccabile tramite USDT.",
+                    "src": "./img/item-hw/cpu/iC6.png"
+                },
+                {
+                    "level": 7,
+                    "name": "CoreX 700",
+                    "price_cns": null,
+                    "mining_profit_cns": 500,
+                    "price_usdt": 5.00,
+                    "description": "CPU di livello 7, molto potente.",
+                    "src": "./img/item-hw/cpu/iC7.png"
+                }
+            ]
+        },
+        {
+            "type": "GPU",
+            "items": [
+                {
+                    "level": 1,
+                    "name": "OptiFusion I1",
+                    "price_cns": 1000,
+                    "mining_profit_cns": 10,
+                    "price_usdt": null,
+                    "description": "GPU base per grafica limitata.",
+                    "src": "./img/item-hw/gpu/oI1.png"
+                },
+                {
+                    "level": 2,
+                    "name": "OptiFusion I2",
+                    "price_cns": 5000,
+                    "mining_profit_cns": 20,
+                    "price_usdt": null,
+                    "description": "GPU livello 2, migliora le prestazioni.",
+                    "src": "./img/item-hw/gpu/oI2.png"
+                },
+                {
+                    "level": 3,
+                    "name": "OptiFusion I3",
+                    "price_cns": 10000,
+                    "mining_profit_cns": 40,
+                    "price_usdt": null,
+                    "description": "GPU più potente di livello 3.",
+                    "src": "./img/item-hw/gpu/oI3.png"
+                },
+                {
+                    "level": 4,
+                    "name": "OptiFusion I4",
+                    "price_cns": 15000,
+                    "mining_profit_cns": 80,
+                    "price_usdt": null,
+                    "description": "GPU avanzata di livello 4.",
+                    "src": "./img/item-hw/gpu/oI4.png"
+                },
+                {
+                    "level": 5,
+                    "name": "OptiFusion I5",
+                    "price_cns": null,
+                    "mining_profit_cns": 150,
+                    "price_usdt": 1.00,
+                    "description": "GPU top di gamma, prestazioni elevate.",
+                    "src": "./img/item-hw/gpu/oI5.png"
+                },
+                {
+                    "level": 6,
+                    "name": "OptiFusion I6",
+                    "price_cns": null,
+                    "mining_profit_cns": 300,
+                    "price_usdt": 3.00,
+                    "description": "GPU potente, livello 6.",
+                    "src": "./img/item-hw/gpu/oI6.png"
+                },
+                {
+                    "level": 7,
+                    "name": "OptiFusion I7",
+                    "price_cns": null,
+                    "mining_profit_cns": 520,
+                    "price_usdt": 5.00,
+                    "description": "GPU avanzata di livello 7.",
+                    "src": "./img/item-hw/gpu/oI7.png"
+                }
+            ]
+        },
+        {
+            "type": "RAM",
+            "items": [
+                {
+                    "level": 1,
+                    "name": "HyperFlow R1",
+                    "price_cns": 1000,
+                    "mining_profit_cns": 10,
+                    "price_usdt": null,
+                    "description": "RAM base, prestazioni basse.",
+                    "src": "./img/item-hw/ram/hR1.png"
+                },
+                {
+                    "level": 2,
+                    "name": "HyperFlow R2",
+                    "price_cns": 5000,
+                    "mining_profit_cns": 20,
+                    "price_usdt": null,
+                    "description": "RAM di livello 2, migliora la velocità.",
+                    "src": "./img/item-hw/ram/hR2.png"
+                },
+                {
+                    "level": 3,
+                    "name": "VegaStream R3",
+                    "price_cns": 10000,
+                    "mining_profit_cns": 40,
+                    "price_usdt": null,
+                    "description": "RAM di livello 3, prestazioni stabili.",
+                    "src": "./img/item-hw/ram/hR3.png"
+                },
+                {
+                    "level": 4,
+                    "name": "VegaStream R4",
+                    "price_cns": 15000,
+                    "mining_profit_cns": 80,
+                    "price_usdt": null,
+                    "description": "RAM avanzata, miglioramento notevole.",
+                    "src": "./img/item-hw/ram/hR4.png"
+                },
+                {
+                    "level": 5,
+                    "name": "VegaStream R5",
+                    "price_cns": null,
+                    "mining_profit_cns": 120,
+                    "price_usdt": 1.00,
+                    "description": "RAM top di gamma, prestazioni eccellenti.",
+                    "src": "./img/item-hw/ram/hR5.png"
+                },
+                {
+                    "level": 6,
+                    "name": "MaxDyn 600",
+                    "price_cns": null,
+                    "mining_profit_cns": 300,
+                    "price_usdt": 3.00,
+                    "description": "RAM di livello 6, maggiore capacità.",
+                    "src": "./img/item-hw/ram/hR6.png"
+                },
+                {
+                    "level": 7,
+                    "name": "MaxDyn 700",
+                    "price_cns": null,
+                    "mining_profit_cns": 500,
+                    "price_usdt": 5.00,
+                    "description": "RAM di livello 7, ottima per il mining.",
+                    "src": "./img/item-hw/ram/hR7.png"
+                }
+            ]
+        },
+        {
+            "type": "OS",
+            "items": [
+            {
+                "level": 1,
+                "name": "OSBase 1",
+                "price_cns": 1000,
+                "mining_profit_cns": 10,
+                "price_usdt": null,
+                "description": "Sistema operativo base.",
+                "src": "./img/item-hw/os/oS1.png"
+
+            },
+            {
+                "level": 2,
+                "name": "OSBase 2",
+                "price_cns": 5000,
+                "mining_profit_cns": 20,
+                "price_usdt": null,
+                "description": "Sistema operativo livello 2, stabile.",
+                "src": "./img/item-hw/os/oS2.png"
+            },
+            {
+                "level": 3,
+                "name": "XpertOS 3",
+                "price_cns": 10000,
+                "mining_profit_cns": 40,
+                "price_usdt": null,
+                "description": "Sistema operativo potente.",
+                "src": "./img/item-hw/os/oS3.png"
+            },
+            {
+                "level": 4,
+                "name": "XpertOS 4",
+                "price_cns": 15000,
+                "mining_profit_cns": 80,
+                "price_usdt": null,
+                "description": "Sistema operativo di livello 4, molto potente.",
+                "src": "./img/item-hw/os/oS4.png"
+            },
+            {
+                "level": 5,
+                "name": "XpertOS 5",
+                "price_cns": null,
+                "mining_profit_cns": 150,
+                "price_usdt": 1.00,
+                "description": "Sistema operativo avanzato.",
+                "src": "./img/item-hw/os/oS5.png"
+            },
+            {
+                "level": 6,
+                "name": "XpertOS 600",
+                "price_cns": null,
+                "mining_profit_cns": 300,
+                "price_usdt": 3.00,
+                "description": "Sistema operativo di livello 6.",
+                "src": "./img/item-hw/os/oS6.png"
+            },
+            {
+                "level": 7,
+                "name": "XpertOS 700",
+                "price_cns": null,
+                "mining_profit_cns": 500,
+                "price_usdt": 5.00,
+                "description": "Sistema operativo molto potente, livello 7.",
+                "src": "./img/item-hw/os/oS7.png"
+            }
+            ]
+        },
+        {
+            "type": "NETWORK-CARD",
+            "items": [
+            {
+                "level": 1,
+                "name": "NetworkX 1",
+                "price_cns": 1000,
+                "mining_profit_cns": 10,
+                "price_usdt": null,
+                "description": "Scheda di rete base.",
+                "src": "./img/item-hw/network-card/nX1.png"
+            },
+            {
+                "level": 2,
+                "name": "NetworkX 2",
+                "price_cns": 5000,
+                "mining_profit_cns": 20,
+                "price_usdt": null,
+                "description": "Scheda di rete potente.",
+                "src": "./img/item-hw/network-card/nX2.png"
+            },
+            {
+                "level": 3,
+                "name": "NetworkX 3",
+                "price_cns": 10000,
+                "mining_profit_cns": 40,
+                "price_usdt": null,
+                "description": "Scheda di rete avanzata.",
+                "src": "./img/item-hw/network-card/nX3.png"
+            },
+            {
+                "level": 4,
+                "name": "NetworkX 4",
+                "price_cns": 15000,
+                "mining_profit_cns": 80,
+                "price_usdt": null,
+                "description": "Scheda di rete avanzata di livello 4.",
+                "src": "./img/item-hw/network-card/nX4.png"
+            },
+            {
+                "level": 5,
+                "name": "NetworkX 5",
+                "price_cns": null,
+                "mining_profit_cns": 150,
+                "price_usdt": 1.00,
+                "description": "Scheda di rete top di gamma.",
+                "src": "./img/item-hw/network-card/nX5.png"
+            },
+            {
+                "level": 6,
+                "name": "NetworkX 600",
+                "price_cns": null,
+                "mining_profit_cns": 300,
+                "price_usdt": 3.00 ,
+                "description": "Scheda di rete molto potente.",
+                "src": "./img/item-hw/network-card/nX6.png"
+            },
+            {
+                "level": 7,
+                "name": "NetworkX 700",
+                "price_cns": null,
+                "mining_profit_cns": 500,
+                "price_usdt": 5.00,
+                "description": "Scheda di rete di livello avanzato.",
+                "src": "./img/item-hw/network-card/nX7.png"
+            }
+            ]
+        },
+        {
+            "type": "SSD",
+            "items": [
+                {
+                    "level": 1,
+                    "name": "FlashCore S1",
+                    "price_cns": 1000,
+                    "mining_profit_cns": 10,
+                    "price_usdt": null,
+                    "description": "SSD base.",
+                    "src": "./img/item-hw/ssd/SSD1.png"
+                },
+                {
+                    "level": 2,
+                    "name": "FlashCore S2",
+                    "price_cns": 5000,
+                    "mining_profit_cns": 20,
+                    "price_usdt": null,
+                    "description": "SSD di livello 2, migliore capacità.",
+                    "src": "./img/item-hw/ssd/SSD2.png"
+                },
+                {
+                    "level": 3,
+                    "name": "FusionDrive S3",
+                    "price_cns": 10000,
+                    "mining_profit_cns": 40,
+                    "price_usdt": null,
+                    "description": "SSD potente per prestazioni elevate.",
+                    "src": "./img/item-hw/ssd/SSD3.png"
+                },
+                {
+                    "level": 4,
+                    "name": "FusionDrive S4",
+                    "price_cns": 15000,
+                    "mining_profit_cns": 80,
+                    "price_usdt": null,
+                    "description": "SSD avanzato di livello 4.",
+                    "src": "./img/item-hw/ssd/SSD4.png"
+                },
+                {
+                    "level": 5,
+                    "name": "FusionDrive S5",
+                    "price_cns": null,
+                    "mining_profit_cns": 150,
+                    "price_usdt": 1.00,
+                    "description": "SSD top di gamma per mining estremo.",
+                    "src": "./img/item-hw/ssd/SSD5.png"
+                },
+                {
+                    "level": 6,
+                    "name": "TurboDisk 600",
+                    "price_cns": null,
+                    "mining_profit_cns": 300,
+                    "price_usdt": 3.00,
+                    "description": "SSD di livello 6, miglioramento significativo.",
+                    "src": "./img/item-hw/ssd/SSD6.png"
+                },
+                {
+                    "level": 7,
+                    "name": "TurboDisk 700",
+                    "price_cns": null,
+                    "mining_profit_cns": 500,
+                    "price_usdt": 5.00,
+                    "description": "SSD di livello 7, prestazioni superiori.",
+                    "src": "./img/item-hw/ssd/SSD7.png"
+                }
+                
+            ]
+        },
+        {
+            "type": "HDD",
+            "items": [
+                  {
+                    "level": 1,
+                    "name": "BasicDrive H1",
+                    "price_cns": 1000,
+                    "mining_profit_cns": 10,
+                    "price_usdt": null,
+                    "description": "HD di base per utilizzo standard.",
+                    "src": "./img/item-hw/hdd/HD1.png"
+                  },
+                  {
+                    "level": 2,
+                    "name": "UltraDrive H2",
+                    "price_cns": 5000,
+                    "mining_profit_cns": 20,
+                    "price_usdt": null,
+                    "description": "HD di livello 2 con maggiore capacità.",
+                    "src": "./img/item-hw/hdd/HD2.png"
+                  },
+                  {
+                    "level": 3,
+                    "name": "FusionDrive H3",
+                    "price_cns": 10000,
+                    "mining_profit_cns": 40,
+                    "price_usdt": null,
+                    "description": "HD potente per prestazioni avanzate.",
+                    "src": "./img/item-hw/hdd/HD3.png"
+                  },
+                  {
+                    "level": 4,
+                    "name": "FusionDrive H4",
+                    "price_cns": 15000,
+                    "mining_profit_cns": 80,
+                    "price_usdt": null,
+                    "description": "HD avanzato per prestazioni elevate.",
+                    "src": "./img/item-hw/hdd/HD4.png"
+                  },
+                  {
+                    "level": 5,
+                    "name": "ProDrive H5",
+                    "price_cns": null,
+                    "mining_profit_cns": 150,
+                    "price_usdt": 1.00,
+                    "description": "HD di livello 5 per utilizzi intensivi.",
+                    "src": "./img/item-hw/hdd/HD5.png"
+                  },
+                  {
+                    "level": 6,
+                    "name": "HyperDrive H6",
+                    "price_cns": null,
+                    "mining_profit_cns": 300,
+                    "price_usdt": 3.00,
+                    "description": "HD di livello 6 per performance superiori.",
+                    "src": "./img/item-hw/hdd/HD6.png"
+                  },
+                  {
+                    "level": 7,
+                    "name": "HyperDrive H7",
+                    "price_cns": null,
+                    "mining_profit_cns": 500,
+                    "price_usdt": 5.00,
+                    "description": "HD di livello 7, progettato per carichi pesanti.",
+                    "src": "./img/item-hw/hdd/HD7.png"
+                  }
+                ]
+             
+        }
+               
+    ]
+}
+  

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="144.364" height="178.741" viewBox="0 0 144.364 178.741">
+  <defs>
+    <filter id="Path_1" x="0" y="0" width="144.364" height="178.741" filterUnits="userSpaceOnUse">
+      <feOffset input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-color="#fff" flood-opacity="0.529"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+
+    <!-- Gradiente per angoli con effetto sfumato -->
+    <linearGradient id="cornerGradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="50%" stop-color="rgba(56,56,56,1)" />
+      <stop offset="100%" stop-color="rgba(28,28,28,1)" />
+    </linearGradient>
+  </defs>
+  
+  <g id="Component_2_1" data-name="Component 2 – 1" transform="translate(15 15)">
+    <g transform="matrix(1, 0, 0, 1, -15, -15)" filter="url(#Path_1)">
+      <!-- Applicato il gradiente agli angoli -->
+      <path id="Path_1-2" data-name="Path 1" d="M147.915,362v68.693h26.973v80.048h70.477V362" transform="translate(-116 -347)" fill="url(#cornerGradient3)"/>
+    </g>
+    <g transform="matrix(1, 0, 0, 1, -15, -15)" filter="url(#_)">
+      <text id="_2" data-name="↵" transform="translate(94 66)" fill="#fafffd" font-size="45" font-family="SegoeUISymbol, Segoe UI Symbol"><tspan x="-12.415" y="0">↵</tspan></text>
+    </g>
+  </g>
+</svg>
