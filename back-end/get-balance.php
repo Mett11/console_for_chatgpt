@@ -3,8 +3,8 @@
 header('Content-Type: application/json');
 
 // Connessione al database
-require_once 'conn.php'; // Modifica il percorso se necessario
-require_once 'verify-token.php'; // Includi il file che contiene la funzione per verificare il token
+require_once(__DIR__ . '/conn.php'); // Modifica il percorso se necessario
+require_once(__DIR__ . '/verify-token.php'); // Includi il file che contiene la funzione per verificare il token
 
 // Verifica del token
 $token = getBearerToken(); // Recupera il token dalla richiesta

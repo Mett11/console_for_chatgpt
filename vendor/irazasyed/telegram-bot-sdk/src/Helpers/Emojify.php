@@ -2,45 +2,39 @@
 
 namespace Telegram\Bot\Helpers;
 
+use LogicException;
 use Telegram\Bot\Exceptions\TelegramEmojiMapFileNotFoundException;
 
 /**
  * Class Emojify.
  */
-class Emojify
+final class Emojify
 {
-    /**
-     * @var Emojify The reference to *Singleton* instance of this class
-     */
-    private static $instance;
+    private static ?self $instance = null;
 
     /**
      * The path to the file containing the emoji map.
      *
      * @var string
      */
-    const DEFAULT_EMOJI_MAP_FILE = '/../Storage/emoji.json';
+    public const DEFAULT_EMOJI_MAP_FILE = '/../Storage/emoji.json';
 
     /**
      * The path to the file containing the emoji map.
      *
      * @var string
      */
-    protected $emojiMapFile;
+    private $emojiMapFile;
 
     /**
      * The array mapping words to emoji.
-     *
-     * @var array
      */
-    protected $emojiMap;
+    private array $emojiMap = [];
 
     /**
      * The array mapping emoji back to words.
-     *
-     * @var array
      */
-    protected $wordMap;
+    private array $wordMap = [];
 
     /**
      * Protected Emojify constructor to prevent creating a new instance of the
@@ -48,7 +42,7 @@ class Emojify
      *
      * @throws TelegramEmojiMapFileNotFoundException
      */
-    protected function __construct()
+    private function __construct()
     {
         $this->setupEmojiMaps();
     }
@@ -58,23 +52,21 @@ class Emojify
      *
      * @return Emojify The *Singleton* instance.
      */
-    public static function getInstance()
+    public static function getInstance(): ?\Telegram\Bot\Helpers\Emojify
     {
-        if (null === static::$instance) {
-            static::$instance = new static();
+        if (! self::$instance instanceof \Telegram\Bot\Helpers\Emojify) {
+            self::$instance = new self();
         }
 
-        return static::$instance;
+        return self::$instance;
     }
 
     /**
      * Set File Path to Emoji Map File.
      *
-     * @param string $emojiMapFile
-     *
-     * @return Emojify
+     * @param  string  $emojiMapFile
      */
-    public function setEmojiMapFile($emojiMapFile)
+    public function setEmojiMapFile($emojiMapFile): self
     {
         $this->emojiMapFile = $emojiMapFile;
         $this->setupEmojiMaps();
@@ -84,8 +76,6 @@ class Emojify
 
     /**
      * Translate Word to Emoji.
-     *
-     * @param $text
      *
      * @return mixed
      */
@@ -97,8 +87,6 @@ class Emojify
     /**
      * Alias of toEmoji().
      *
-     * @param $text
-     *
      * @return mixed
      */
     public static function text($text)
@@ -108,8 +96,6 @@ class Emojify
 
     /**
      * Translate Emoji to Word.
-     *
-     * @param $text
      *
      * @return mixed
      */
@@ -121,8 +107,6 @@ class Emojify
     /**
      * Alias of toWord().
      *
-     * @param $text
-     *
      * @return mixed
      */
     public static function translate($text)
@@ -133,14 +117,9 @@ class Emojify
     /**
      * Replace.
      *
-     * @param        $line
-     * @param        $replace
-     * @param bool   $toWord
-     * @param string $delimiter
-     *
      * @return mixed
      */
-    protected function replace($line, $replace, $toWord = false, $delimiter = ':')
+    private function replace($line, array $replace, bool $toWord = false, string $delimiter = ':')
     {
         if ($toWord) {
             return $this->emojiToWordReplace($line, $replace, $delimiter);
@@ -153,16 +132,12 @@ class Emojify
      * Finds words enclosed by the delimiter and converts them to the
      * appropriate emoji character.
      *
-     * @param $line
-     * @param $replace
-     * @param $delimiter
-     *
      * @return mixed
      */
-    protected function wordToEmojiReplace($line, $replace, $delimiter)
+    private function wordToEmojiReplace($line, array $replace, string $delimiter)
     {
         foreach ($replace as $key => $value) {
-            $line = str_replace($delimiter . $key . $delimiter, $value, $line);
+            $line = str_replace($delimiter.$key.$delimiter, $value, $line);
         }
 
         return $line;
@@ -171,16 +146,12 @@ class Emojify
     /**
      * Finds emojis and replaces them with text enclosed by the delimiter.
      *
-     * @param $line
-     * @param $replace
-     * @param $delimiter
-     *
      * @return mixed
      */
-    protected function emojiToWordReplace($line, $replace, $delimiter)
+    private function emojiToWordReplace($line, array $replace, string $delimiter)
     {
         foreach ($replace as $key => $value) {
-            $line = str_replace($key, $delimiter . $value . $delimiter, $line);
+            $line = str_replace($key, $delimiter.$value.$delimiter, $line);
         }
 
         return $line;
@@ -189,21 +160,21 @@ class Emojify
     /**
      * Get Emoji Map Array.
      *
-     * @throws TelegramEmojiMapFileNotFoundException
-     *
      * @return array
+     *
+     * @throws TelegramEmojiMapFileNotFoundException
      */
-    protected function getEmojiMap()
+    private function getEmojiMap()
     {
-        if (! isset($this->emojiMapFile)) {
-            $this->emojiMapFile = realpath(__DIR__ . self::DEFAULT_EMOJI_MAP_FILE);
+        if ($this->emojiMapFile === null) {
+            $this->emojiMapFile = realpath(__DIR__.self::DEFAULT_EMOJI_MAP_FILE);
         }
 
         if (! file_exists($this->emojiMapFile)) {
             throw new TelegramEmojiMapFileNotFoundException();
         }
 
-        return json_decode(file_get_contents($this->emojiMapFile), true);
+        return json_decode(file_get_contents($this->emojiMapFile), true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -211,7 +182,7 @@ class Emojify
      *
      * @throws TelegramEmojiMapFileNotFoundException
      */
-    protected function setupEmojiMaps()
+    private function setupEmojiMaps(): void
     {
         $this->emojiMap = $this->getEmojiMap();
         $this->wordMap = array_flip($this->emojiMap);
@@ -221,21 +192,21 @@ class Emojify
      * Throw an exception when the user tries to clone the *Singleton*
      * instance.
      *
-     * @throws \LogicException always
+     * @throws LogicException always
      */
     public function __clone()
     {
-        throw new \LogicException('The Emojify helper cannot be cloned');
+        throw new LogicException('The Emojify helper cannot be cloned');
     }
 
     /**
      * Throw an exception when the user tries to unserialize the *Singleton*
      * instance.
      *
-     * @throws \LogicException always
+     * @throws LogicException always
      */
     public function __wakeup()
     {
-        throw new \LogicException('The Emojify helper cannot be serialised');
+        throw new LogicException('The Emojify helper cannot be serialised');
     }
 }

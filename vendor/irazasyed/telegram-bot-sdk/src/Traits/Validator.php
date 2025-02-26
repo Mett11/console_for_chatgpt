@@ -11,11 +11,6 @@ trait Validator
 {
     /**
      * Determine given param in params array is a file id.
-     *
-     * @param string $inputFileField
-     * @param array  $params
-     *
-     * @return bool
      */
     protected function hasFileId(string $inputFileField, array $params): bool
     {
@@ -24,10 +19,6 @@ trait Validator
 
     /**
      * Determine if given contents are an instance of InputFile.
-     *
-     * @param $contents
-     *
-     * @return bool
      */
     protected function isInputFile($contents): bool
     {
@@ -37,27 +28,23 @@ trait Validator
     /**
      * Determine the given string is a file id.
      *
-     * @param string $value
-     *
-     * @return bool
+     * @param  string|InputFile|resource  $value
      */
-    protected function isFileId($value): bool
+    protected function isFileId(mixed $value): bool
     {
         if (! is_string($value)) {
             return false;
         }
 
-        return preg_match('/^[\w\-]{20,}+$/u', trim($value)) > 0;
+        return preg_match('#^[\w\-]{20,}+$#u', trim($value)) > 0;
     }
 
     /**
      * Determine given string is a URL.
      *
-     * @param string $value A filename or URL to a sticker
-     *
-     * @return bool
+     * @param  string  $value  A filename or URL to a sticker
      */
-    protected function isUrl($value): bool
+    protected function isUrl(string $value): bool
     {
         return (bool) filter_var($value, FILTER_VALIDATE_URL);
     }
@@ -65,13 +52,12 @@ trait Validator
     /**
      * Determine given string is a json object.
      *
-     * @param string $string A json string
-     * @return bool
+     * @param  string  $string  A json string
      */
-    protected function is_json($string): bool
+    protected function is_json(string $string): bool
     {
-        json_decode($string);
+        json_decode($string, false);
 
-        return json_last_error() == JSON_ERROR_NONE;
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }

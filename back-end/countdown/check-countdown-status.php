@@ -1,7 +1,15 @@
 <?php
 // check-countdown-status.php
 
-require_once '../conn.php';  // Connessione al database
+require_once(__DIR__ . '/../conn.php');  // Connessione al database
+require_once(__DIR__ . '/../verify-token.php'); // Includi il file che contiene la funzione per verificare il token
+
+// Verifica del token
+$token = getBearerToken(); // Recupera il token dalla richiesta
+if (!$token || !verifyAuthorizationHeader($token)) { // Usa la funzione per verificare il token
+    echo json_encode(['error' => 'Invalid or missing token']);
+    exit;
+}
 
 
 // Verifica se è stato passato l'user_id

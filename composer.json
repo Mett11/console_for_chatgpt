@@ -3,6 +3,7 @@
         "telegram-bot/api": "^2.5",
         "irazasyed/telegram-bot-sdk": "^3.9",
         "firebase/php-jwt": "^6.4",
-        "lcobucci/jwt": "^3.4"
+        "lcobucci/jwt": "^4.0",
+        "predis/predis": "^2.1"
     }
 }

@@ -1,35 +1,35 @@
 export const keys = [
-    { id: 1, img: 'img/button/alt-button.svg', cost: 0, claim: 50, time: 5 },
-    { id: 2, img: 'img/button/ctrl-button.svg', cost: 200, claim: 200, time: 10 },
-    { id: 3, img: 'img/button/del-button.svg', cost: 300, claim: 300, time: 15 },
-    { id: 4, img: 'img/button/shift-button.svg', cost: 400, claim: 400, time: 20 },
-    { id: 5, img: 'img/button/enter-button.svg', cost: 500, claim: 500, time: 25 }
+    { id: 1, img: 'img/button/alt-button.svg', cost: 0, claim: 1000, time: 5 },
+    { id: 2, img: 'img/button/ctrl-button.svg', cost: 1500, claim: 2500, time: 10 },
+    { id: 3, img: 'img/button/del-button.svg', cost: 3000, claim: 5000, time: 15 },
+    { id: 4, img: 'img/button/shift-button.svg', cost: 5000, claim: 10000, time: 20 },
+    { id: 5, img: 'img/button/enter-button.svg', cost: 10000, claim: 20000, time: 25 }
 ];
 
 export const calcolaLivello = (punti, livelloPrecedente) => {    
-    if (punti < 10000) return Math.max(1, livelloPrecedente); // Livello minimo è 1
-    if (punti < 25000) return Math.max(2, livelloPrecedente); // Livello minimo è 2
-    if (punti < 50000) return Math.max(3, livelloPrecedente); // Livello minimo è 3
-    if (punti < 75000) return Math.max(4, livelloPrecedente); // Livello minimo è 4
-    if (punti < 100000) return Math.max(5, livelloPrecedente); // Livello minimo è 5
-    if (punti < 200000) return Math.max(6, livelloPrecedente); // Livello minimo è 6
+    if (punti < 50000) return Math.max(1, livelloPrecedente); // Livello minimo è 1
+    if (punti < 100000) return Math.max(2, livelloPrecedente); // Livello minimo è 2
+    if (punti < 150000) return Math.max(3, livelloPrecedente); // Livello minimo è 3
+    if (punti < 200000) return Math.max(4, livelloPrecedente); // Livello minimo è 4
+    if (punti < 300000) return Math.max(5, livelloPrecedente); // Livello minimo è 5
+    if (punti < 400000) return Math.max(6, livelloPrecedente); // Livello minimo è 6
     if (punti < 500000) return Math.max(7, livelloPrecedente); // Livello minimo è 7
-    if (punti < 1000000) return Math.max(8, livelloPrecedente); // Livello minimo è 8
-    if (punti < 2000000) return Math.max(9, livelloPrecedente); // Livello minimo è 9
+    if (punti < 650000) return Math.max(8, livelloPrecedente); // Livello minimo è 8
+    if (punti < 800000) return Math.max(9, livelloPrecedente); // Livello minimo è 9
     return Math.max(10, livelloPrecedente); // Livello massimo è 10
 };
 
 export const calcolaNextLevel = (punti) => {
-    if (punti < 10000) return 10000;
-    if (punti < 25000) return 25000;
     if (punti < 50000) return 50000;
-    if (punti < 75000) return 75000;
     if (punti < 100000) return 100000;
+    if (punti < 150000) return 150000;
     if (punti < 200000) return 200000;
+    if (punti < 300000) return 300000;
+    if (punti < 400000) return 400000;
     if (punti < 500000) return 500000;
-    if (punti < 1000000) return 1000000;
-    if (punti < 2000000) return 2000000;
-    return 2000000;
+    if (punti < 650000) return 650000;
+    if (punti < 800000) return 800000;
+    return 800000;
 };
 
 export const getColor = (livello) => {

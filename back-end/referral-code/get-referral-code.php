@@ -1,9 +1,8 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require_once '../conn.php';
-require_once '../verify-token.php'; 
-
+require_once(__DIR__ . '/../conn.php');
+require_once(__DIR__ . '/../verify-token.php');
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -17,8 +16,9 @@ if (!$token || !verifyAuthorizationHeader($token)) { // Usa la funzione per veri
     sendResponse(false, 'Invalid or missing token');
 }
 
-if (isset($_SESSION['my_session_userid'])) {
-    $userId = $_SESSION['my_session_userid']; // Assegna il valore alla variabile $userId
+$userId = isset($_GET['user_id']) ? $_GET['user_id'] : null;
+
+if ($userId) {
 
     $sql = "SELECT ref_code FROM users WHERE user_id = ?";
     $stmt = $conn->prepare($sql);

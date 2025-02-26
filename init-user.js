@@ -1,4 +1,5 @@
 import { showPopup } from "./js/utils/showPopup.js";
+
 function generateReferralCode(userId) {
     const data = `${userId}-${Date.now()}`;
     const encoded = btoa(encodeURIComponent(data)); // Codifica in Base64
@@ -7,23 +8,22 @@ function generateReferralCode(userId) {
 
 function initApp() {
     console.log("initApp start");
-
     console.log("navigator.userAgent:", navigator.userAgent);
-    
+
+    // Seleziona gli elementi di loading e main content
+    const loadingScreen = document.getElementById("loading-screen");
+    const mainContent = document.querySelector(".container_homepage");
+
     if (typeof Telegram !== 'undefined' && Telegram.WebApp && Telegram.WebApp.platform) {
         console.log("Telegram.WebApp.platform:", Telegram.WebApp.platform);
         if (!['android', 'ios'].includes(Telegram.WebApp.platform.toLowerCase())) {
             showPopup("Not available for Telegram Web, open from mobile");
-            // qui potresti usare showPopup se definito
             return;
         }
     } else {
         console.log("Telegram.WebApp non definito, uso fallback userAgent");
         const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-        if (!isMobile) {
-
-            return;
-        }
+        if (!isMobile) return;
     }
 
     // Continuazione del flusso solo se siamo su mobile
@@ -33,6 +33,14 @@ function initApp() {
     const referralCode = urlParams.get('tgWebAppStartParam');
 
     if (user_obj !== undefined) {
+        const user_id = String(user_obj.id);
+        // Salva lo user_id in localStorage
+        localStorage.setItem('user_id', user_id);
+        // Imposta il link per homepage.php inizialmente a "#" per evitare reindirizzamenti prematuri
+        document.getElementById("link_homepage").href = "#";
+        // Disabilita il bottone finché non arriva la risposta positiva
+        document.getElementById("first-button-continue").disabled = true;
+
         // Prima richiesta: Registrazione utente
         fetch('back-end/register-user.php', {
             method: 'POST',
@@ -40,60 +48,72 @@ function initApp() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                user_id: String(user_obj.id),
+                user_id: user_id,
                 init_data: initData
             })
         })
         .then(response => response.json())
         .then(data => {
-        
             const token = data.token;
+            // Salva il token in localStorage e in un cookie
             localStorage.setItem('jwt_token', token);
+            document.cookie = `jwt_token=${encodeURIComponent(token)}; path=/; Secure; SameSite=Strict`;
 
-            // Seconda richiesta: Aggiornamento sessione
-            return fetch('back-end/update-session.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // Aggiungi il token come Bearer Token
-                },
-                body: JSON.stringify({
-                    key: String(user_obj.id)
-                })
-            });
-        })
-        .then(response => response.json())
-        .then(sessionResponse => {
-            console.log("Sessione aggiornata con successo:", sessionResponse);
-
-            // Generazione del codice referral e salvataggio
-            const userReferralCode = generateReferralCode(user_obj.id);
+            // Genera il codice referral e salvalo
+            const userReferralCode = generateReferralCode(user_id);
             return fetch('back-end/referral-code/save-referral-code.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('jwt_token')}` // Aggiungi il token come Bearer Token
+                    'Authorization': `Bearer ${token}` // Il token qui viene passato per autorizzare la richiesta
                 },
                 body: JSON.stringify({
-                    user_id: String(user_obj.id),
+                    user_id: user_id,
                     referral_code: userReferralCode,
-                    referred_by: referralCode // Codice referral dall'URL (se presente)
+                    referred_by: referralCode // (se presente)
                 })
             });
         })
-        .then(response => response.json())
-        .catch(error => {
-            if (error.message && error.message.includes('registrazione dell\'utente')) {
-                window.location.href = "index.php";
+        .then(response => {
+            console.log("Status code:", response.status);
+            if (!response.ok) {
+                throw new Error('Errore nel salvataggio del codice referral');
             }
-            console.error(error.message);
+            return response.text();
+        })
+        .then(text => {
+            console.log("Response text:", text);
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch(e) {
+                throw new Error("Errore nel parsing della response JSON: " + e.message);
+            }
+            return data;
+        })
+        .then(data => {
+            if (data.success === true) {
+                document.getElementById("link_homepage").href = `homepage.php?user_id=${user_id}`;
+                document.getElementById("first-button-continue").disabled = false;
+                loadingScreen.style.display = "none";
+                mainContent.style.display = "block";
+            } else {
+                throw new Error(data.message || 'Errore sconosciuto nel salvataggio del referral code');
+            }
+        })
+        .catch(error => {
+            loadingScreen.style.display = "none";
+            showPopup("Si è verificato un errore. Riprova.");
         });
+        
+        
     } else {
         document.getElementById("first-button-continue").disabled = true;
+        loadingScreen.style.display = "none";
     }
 }
 
-// Se il documento è in fase di caricamento, attendi DOMContentLoaded; altrimenti, esegui subito initApp.
+// Esegui initApp() al caricamento del documento
 if (document.readyState === "loading") {
     document.addEventListener('DOMContentLoaded', initApp);
 } else {

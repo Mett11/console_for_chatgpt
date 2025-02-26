@@ -1,8 +1,8 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require_once '../conn.php';
-require_once '../verify-token.php'; 
+require_once(__DIR__ . '/../conn.php');
+require_once(__DIR__ . '/../verify-token.php');
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
@@ -17,9 +17,10 @@ if (!$token || !verifyAuthorizationHeader($token)) {
     sendResponse(false, 'Invalid or missing token');
 }
 
-if (isset($_SESSION['my_session_userid'])) {
-    $data = json_decode(file_get_contents('php://input'), true);
-    $userId = $data['user_id'];
+$data = json_decode(file_get_contents('php://input'), true);
+$userId = $data['user_id']; // Assegna il valore alla variabile $userId
+
+if (isset($userId)) {
 
     $sql = "SELECT invited_id, created_at FROM referrals WHERE inviter_id = ? ORDER BY created_at ASC";
     $stmt = $conn->prepare($sql);

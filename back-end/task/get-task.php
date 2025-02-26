@@ -1,8 +1,8 @@
 <?php
 // Imposta l'header per il contenuto JSON
 header('Content-Type: application/json');
-require_once '../verify-token.php'; // Includi il file che contiene la funzione per verificare il token
-require_once '../conn.php'; // Modifica il percorso se necessario
+require_once(__DIR__ . '/../verify-token.php'); // Includi il file che contiene la funzione per verificare il token
+require_once(__DIR__ . '/../conn.php'); // Modifica il percorso se necessario
 
 // Verifica del token
 $token = getBearerToken(); // Recupera il token dalla richiesta

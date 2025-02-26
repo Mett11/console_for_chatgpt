@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
-require_once '../conn.php';
-require_once '../verify-token.php';
+require_once(__DIR__ . '/../conn.php');
+require_once(__DIR__ . '/../verify-token.php');
 
 $token = getBearerToken(); 
 if (!$token || !verifyAuthorizationHeader($token)) { 

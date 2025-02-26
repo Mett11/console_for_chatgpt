@@ -1,5 +1,7 @@
 <?php
 
+use Telegram\Bot\Commands\HelpCommand;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -28,12 +30,16 @@ return [
     |                       Acme\Project\Commands\BotFather\ByeCommand::class,
     |             ]
     */
-    'bots'                         => [
+    'bots' => [
         'mybot' => [
-            'token'               => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
-            'certificate_path'    => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
-            'webhook_url'         => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
-            'commands'            => [
+            'token' => env('TELEGRAM_BOT_TOKEN', 'YOUR-BOT-TOKEN'),
+            'certificate_path' => env('TELEGRAM_CERTIFICATE_PATH', 'YOUR-CERTIFICATE-PATH'),
+            'webhook_url' => env('TELEGRAM_WEBHOOK_URL', 'YOUR-BOT-WEBHOOK-URL'),
+            /*
+             * @see https://core.telegram.org/bots/api#update
+             */
+            'allowed_updates' => null,
+            'commands' => [
                 //Acme\Project\Commands\MyTelegramBot\BotCommand::class
             ],
         ],
@@ -52,7 +58,7 @@ return [
     | your default bot for regular use.
     |
     */
-    'default'                      => 'mybot',
+    'default' => 'mybot',
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +71,7 @@ return [
     | Possible Values: (Boolean) "true" OR "false"
     |
     */
-    'async_requests'               => env('TELEGRAM_ASYNC_REQUESTS', false),
+    'async_requests' => env('TELEGRAM_ASYNC_REQUESTS', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +84,20 @@ return [
     | Default: GuzzlePHP
     |
     */
-    'http_client_handler'          => null,
+    'http_client_handler' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Base Bot Url [Optional]
+    |--------------------------------------------------------------------------
+    |
+    | If you'd like to use a custom Base Bot Url.
+    | Should be a local bot api endpoint or a proxy to the telegram api endpoint
+    |
+    | Default: https://api.telegram.org/bot
+    |
+    */
+    'base_bot_url' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -110,8 +129,8 @@ return [
     | will respond with a list of available commands and description.
     |
     */
-    'commands'                     => [
-        Telegram\Bot\Commands\HelpCommand::class,
+    'commands' => [
+        HelpCommand::class,
     ],
 
     /*
@@ -132,7 +151,7 @@ return [
     |
     | Examples shown below are by the group type for you to understand each of them.
     */
-    'command_groups'               => [
+    'command_groups' => [
         /* // Group Type: 1
            'commmon' => [
                 Acme\Project\Commands\TodoCommand::class,
@@ -191,7 +210,7 @@ return [
     | Think of this as a central storage, to register, reuse and maintain them across all bots.
     |
     */
-    'shared_commands'              => [
+    'shared_commands' => [
         // 'start' => Acme\Project\Commands\StartCommand::class,
         // 'stop' => Acme\Project\Commands\StopCommand::class,
         // 'status' => Acme\Project\Commands\StatusCommand::class,

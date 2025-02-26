@@ -3,7 +3,7 @@ import { onDomReadyActiveItem } from "./events/domReadyActiveItem.js";
 import { onDomReadyDailyReward } from "./events/domReadyDailyReward.js"; 
 import { onDomReadyCountdown } from "./events/domReadyCountdown.js"; 
 
-// Inizializza l'app
+// Inizializza l'app con i moduli
 onDomReadyRetrieveUserInfo();
 onDomReadyActiveItem();
 onDomReadyCountdown();

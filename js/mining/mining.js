@@ -217,40 +217,60 @@ function createPopup(content, jsonData, userId, id_box) {
         });
     }
 
-// Aggiornamento della funzione buy-button
+// Trova tutti i bottoni relativi agli acquisti in USDT
+const usdtButtons = Array.from(document.querySelectorAll('.buy-button')).filter(button => {
+    const itemData = JSON.parse(button.dataset.item);
+    return itemData.price_usdt !== null; // Prende solo quelli con prezzo in USDT
+});
+
+// Cerca il primo bottone NON acquistato
+const firstAvailableButton = usdtButtons.find(button => {
+    const itemData = JSON.parse(button.dataset.item);
+    return !itemData.isPurchased; // Trova il primo non comprato
+});
+
+// Se esiste un bottone acquistabile, sbloccalo
+if (firstAvailableButton) {
+    firstAvailableButton.style.backgroundColor = '#00aeff!important';  // Cambia colore sfondo
+    firstAvailableButton.disabled = false;
+    firstAvailableButton.textContent = "Buy Now";
+}
+
+// Mantieni l'event listener originale per gestire gli acquisti
 popup.querySelectorAll('.buy-button').forEach(button => {
     button.addEventListener('click', () => {
-        
         const CNSLPointElement = document.getElementById('CNSL-point-mining');
         let currentBalance = parseInt(CNSLPointElement.textContent.replace("$CNSL", "").trim(), 10) || 0;
         const itemData = JSON.parse(button.dataset.item);
-        console.log(itemData);
 
         const popupHeader = document.querySelector('.popup-header');
         const typeHwHeader = popupHeader.querySelector('.type-hw-header');
         const typeText = typeHwHeader.textContent;
 
+        // Se l'item è già stato acquistato, interrompi.
         if (itemData.isPurchased) {
             showPopup("Item already purchased");
-            return; // Se l'item è già stato acquistato, esci.
+            return;
         }
 
+        // Gestione acquisti con punti CNSL
         if (itemData.price_cns !== null) {
-            // Acquisto con punti CNSL (già implementato)
             if (currentBalance >= itemData.price_cns) {
                 const newBalance = updateBalance(userId, itemData.price_cns, 'purchase');
-                // Aggiorno il PPD e registro l'acquisto
+                // Aggiorna il PPD
                 const rawText = document.getElementById('PxD').textContent.replace('PPD ', '').trim();  
                 const currentPPD = parseInt(rawText, 10) || 0; 
                 document.getElementById('PxD').textContent = `PPD ${currentPPD + itemData.mining_profit_cns}`;
+                // Registra l'acquisto
                 savePurchaseUi(userId, itemData, typeText);
                 itemData.isPurchased = true;
                 button.disabled = true;
                 button.textContent = 'Bought';
-                // Abilita il livello successivo, se presente
+                // Abilita il bottone del livello successivo
                 const nextLevelButton = Array.from(popup.querySelectorAll('.buy-button')).find(b => {
                     const nextItemData = JSON.parse(b.dataset.item);
-                    return nextItemData.level === itemData.level + 1;
+                    return nextItemData.purchaseType === itemData.purchaseType &&
+                           nextItemData.level === itemData.level + 1;
                 });
                 if (nextLevelButton) {
                     nextLevelButton.disabled = false;
@@ -260,32 +280,34 @@ popup.querySelectorAll('.buy-button').forEach(button => {
             } else {
                 showPopup("Insufficient balance");
             }
-        } else if (itemData.price_usdt !== null) {
+        } 
+        // Gestione acquisti con USDT (soldi veri)
+        else if (itemData.price_usdt !== null) {
             processUsdtPayment(itemData)
             .then(() => {
                 console.log("Updating UI after successful payment...");
-        
-                // 🔹 Aggiorna il valore di PPD
+                // Aggiorna il PPD
                 const rawText = document.getElementById('PxD').textContent.replace('PPD ', '').trim();  
                 const currentPPD = parseInt(rawText, 10) || 0; 
                 document.getElementById('PxD').textContent = `PPD ${currentPPD + itemData.mining_profit_cns}`;
         
-                // 🔹 Registra l'acquisto nel database
+                // Registra l'acquisto nel database
                 savePurchaseUi(userId, itemData, typeText);
         
-                // 🔹 Disabilita il bottone dell'item acquistato
+                // Disabilita il bottone dell'item acquistato
                 itemData.isPurchased = true;
                 button.disabled = true;
                 button.textContent = 'Bought';
         
-                // 🔹 Abilita il pulsante successivo
+                // Abilita il pulsante successivo nello stesso gruppo (purchaseType)
                 const nextLevelButton = Array.from(document.querySelectorAll('.buy-button')).find(b => {
                     const nextItemData = JSON.parse(b.dataset.item);
-                    return nextItemData.level === itemData.level + 1;
+                    return nextItemData.purchaseType === itemData.purchaseType &&
+                           nextItemData.level === itemData.level + 1;
                 });
         
                 if (nextLevelButton) {
-                    console.log("Enabling next level button:", nextLevelButton);
+          
                     nextLevelButton.disabled = false;
                     nextLevelButton.textContent = 'Buy Now';
                 }
@@ -294,11 +316,11 @@ popup.querySelectorAll('.buy-button').forEach(button => {
                 console.error("Payment Error:", error);
                 showPopup("Payment failed: " + error);
             });
-        
-
         }
     });
 });
+
+
 
     // Chiusura popup
     popup.querySelector('.close-popup').addEventListener('click', () => {
@@ -486,47 +508,54 @@ window.onload = async function  () {
         console.log("Start Farming clicked");
         const element = document.getElementById('grid-component');
 
-        element.classList.add('disabled-component');
 
         const userId = userIdElement.textContent.trim();
-    
+        const ppd = document.getElementById('PxD').textContent.replace('PPD ', '').trim();  
+        if(ppd > 0){
         startFarmingAPI(userId)
-        .then(data => {
-            console.log("Farming started:", data);
-    
-            if (data.success) {
-                farmingInProgress = true;
-                farmingStartTime = Date.now();
-                farmingDuration = data.farmingDuration;
+            .then(data => {
+                console.log("Farming started:", data);
+                element.classList.add('disabled-component');
 
-                farmingPoints = 0;
-    
-                farmingButton.textContent = "Farming...";
-                farmingButton.disabled = true;
+        
+                if (data.success) {
+                    farmingInProgress = true;
+                    farmingStartTime = Date.now();
+                    farmingDuration = data.farmingDuration;
 
-                farmingButton.classList.add("farm-active")
-                farmingButton.classList.remove("farm-claim")
+                    farmingPoints = 0;
+        
+                    farmingButton.textContent = "Farming...";
+                    farmingButton.disabled = true;
 
-    
-                farmingInterval = setInterval(updateFarmingProgress, 10000);
-                // Seleziona tutti gli elementi con la classe specificata
-                const elements = document.querySelectorAll('.component');
+                    farmingButton.classList.add("farm-active")
+                    farmingButton.classList.remove("farm-claim")
 
-                // Itera sugli elementi e rimuovi l'animazione
-                elements.forEach(element => {
-                    element.style.animation = 'none';
-                });
+        
+                    farmingInterval = setInterval(updateFarmingProgress, 10000);
+                    // Seleziona tutti gli elementi con la classe specificata
+                    const elements = document.querySelectorAll('.component');
 
-    
-                // Inizializza una verifica dello stato del farming a intervalli specifici
-                setInterval(checkFarmingStatus, checkInterval);
-            } else {
-                console.error('Error:', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error starting farming:', error);
-        });
+                    // Itera sugli elementi e rimuovi l'animazione
+                    elements.forEach(element => {
+                        element.style.animation = 'none';
+                    });
+
+        
+                    // Inizializza una verifica dello stato del farming a intervalli specifici
+                    setInterval(checkFarmingStatus, checkInterval);
+                } else {
+                    console.error('Error:', data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error starting farming:', error);
+            });
+        }
+        else{
+
+            showPopup("PPD must be more than 0")
+        }
     }
     
     

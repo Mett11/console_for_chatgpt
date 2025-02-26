@@ -1,5 +1,8 @@
 //UPDATE HOMEPAGE DAILY REWARD
 export function updateStreakDays(days) {
+    if(days===undefined){
+        days=0
+    }
     document.getElementById("streak-days-reward").innerText = `Streak days: ${days}`;
 }
 

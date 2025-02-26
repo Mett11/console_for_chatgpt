@@ -1,12 +1,27 @@
 <?php
+require_once(__DIR__ . '/back-end/verify-token.php');
 
-    session_start();
-   
-    if (!isset($_SESSION['my_session_userid'])) {
-        header("Location: index.php");
-    }
+ob_start(); // Avvia output buffering per evitare problemi con gli header
 
+// Recupera lo user_id dalla query string
+$user_id = $_GET['user_id'] ?? null;
+// Recupera il token dal cookie
+$token = $_COOKIE['jwt_token'] ?? null;
+if (!$user_id || !$token) {
+    header("Location: index.php");
+    exit;
+}
+
+// Verifica il token (la funzione verifyAuthorizationHeader() deve accettare il token direttamente)
+if (!verifyAuthorizationHeader($token)) {
+    header("Location: index.php");
+    exit;
+}
+
+ob_end_flush(); // Svuota il buffer
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="it">
@@ -14,6 +29,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, height=device-height">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, orientation=portrait">
     <title>Layout Mobile</title>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -29,17 +45,12 @@
 </head>
 <body>
     
-    <header>
+<header>
         <img src="img/logo.svg" alt="logo Console"/>
         <p>Console</p>
         <p id="user-id">
             <?php 
-                if (isset($_SESSION['my_session_userid'])) {
-                    echo htmlspecialchars($_SESSION['my_session_userid']); // Mostra il valore della sessione
-                } 
-                else {
-                    echo "No ID.";
-                }
+                echo  $user_id; // Mostra il valore della sessione
             ?>
         </p>
     </header>
@@ -72,25 +83,23 @@
 
 
     <nav class="bottom-menu">
-        <a href="homepage.php" class="menu-item" id="homeButton" data-page="home" data-text="Home">
-            <img src="img/icons-home.svg" alt="Home Icon" />
+        <a href="homepage.php?user_id=<?= $user_id ?>" class="menu-item" id="homeButton" data-page="home" data-text="Home">
+            <img src="img/icons-home.svg" alt="Task Icon" />
         </a>
-        <a href="task.php" class="menu-item" id="taskButton" data-page="task" data-text="Task">
+        <a href="task.php?user_id=<?= $user_id ?>" class="menu-item" id="taskButton" data-page="task" data-text="Task">
             <img src="img/icons-task.svg" alt="Task Icon" />
         </a>
-        <a href="mining.php" class="menu-item" id="miningButton" data-page="mining" data-text="Mining">
+        <a href="mining.php?user_id=<?= $user_id ?>" class="menu-item" id="miningButton" data-page="mining" data-text="Mining">
             <img src="img/icons-pc.svg" alt="Mining Icon" />
         </a>
-        <a href="friends.php" class="menu-item" id="friendsButton" data-page="friends" data-text="Friends">
-            <h1 class ="text-menu-active" style="color:rgb(255, 232, 156);">Friends</h1>
+        <a href="friends.php?user_id=<?= $user_id ?>" class="menu-item" id="friendsButton" data-page="friends" data-text="Friends">
+            <h1 class="text-menu-active">Friends</h1>
         </a>
-        <a href="wallet.php" class="menu-item" id="walletButton" data-page="wallet" data-text="Wallet">
+        <a href="wallet.php?user_id=<?= $user_id ?>" class="menu-item" id="walletButton" data-page="wallet" data-text="Wallet">
             <img src="img/icons-wallet.svg" alt="Wallet Icon" />
-
+        </a>
+    </nav>
     <script type="module" src="js/friends.js"></script>
-    <script>
-        
-        </script>
 
 </body>
 </html>

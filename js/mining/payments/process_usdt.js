@@ -15,7 +15,7 @@ export async function processUsdtPayment(itemData) {
             }
 
             const friendlyAddress_testnet = "0QA6dCK-Py8vA4YSN-syHiNtEA51pl-4lR3BdwNXBbVFVGog";
-            const friendlyAddress ="UQBa3taT8E1gY3mo7QdeIT6a7RWRpGAf3pCS6mbQm0Rn9xcB"
+            const friendlyAddress ="UQA6dCK-Py8vA4YSN-syHiNtEA51pl-4lR3BdwNXBbVFVNGq"
             const addressObj = new TonWeb.utils.Address(friendlyAddress);
             const rawAddress = addressObj.toString(false, true, true);
 

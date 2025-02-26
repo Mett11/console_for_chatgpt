@@ -31,7 +31,97 @@ body {
     width: 500vw; 
     scroll-snap-type: x mandatory;
 }
+/* Loading screen che copre l'intera pagina */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #0c0c0c;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+  }
+  
+.number-invited-user{
+    font-size: 13px;
+    width: max-content;
+    margin: 5% auto;
+}
 
+#header_invited_user{
+    color:#00f500;
+}
+
+/* Schermata di caricamento in dark mode */
+.loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #0c0c0c;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+  /* Monitor (statico) */
+  .monitor-spinner {
+    position: relative;
+  }
+  
+  /* Corpo del monitor */
+  .monitor-body {
+    fill: #2c3e50;
+    stroke: #34495e;
+    stroke-width: 5;
+  }
+  
+  /* Schermo del monitor */
+  .monitor-screen {
+    fill: black;
+  }
+  
+  /* Animazione per l'apparizione del testo */
+  @keyframes textAppear {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  /* Animazione di lampeggio */
+  @keyframes codeBlink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.3; }
+  }
+  
+  /* Animazione per ogni riga di testo */
+  /* Prima riga: appare subito */
+  #code-text-1 {
+    animation: textAppear 1.5s forwards, codeBlink 3s ease-in-out infinite;
+  }
+  
+  /* Seconda riga: appare con un breve ritardo */
+  #code-text-2 {
+    animation: textAppear 1.5s 1s forwards, codeBlink 3s ease-in-out infinite;
+  }
+  
+  /* Terza riga: appare con un ulteriore ritardo */
+  #code-text-3 {
+    animation: textAppear 1.5s 2s forwards, codeBlink 3s ease-in-out infinite;
+  }
+  
+  /* Quarta riga: appare infine con ritardo */
+  #code-text-4 {
+    animation: textAppear 1.5s 3s forwards, codeBlink 3s ease-in-out infinite;
+  }
+  
 
 /* Header mobile */
 header {

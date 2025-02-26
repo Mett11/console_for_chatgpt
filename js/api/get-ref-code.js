@@ -2,12 +2,10 @@
 import { getCommonHeaders } from '../utils/manage-header.js'; // Importa la funzione per gli header
 
 export async function getReferralCode(userId) {
-    const response = await fetch('back-end/referral-code/get-referral-code.php', {
-        method: 'POST',
-        headers: getCommonHeaders(),
-        body: JSON.stringify({
-            user_id: userId
-        })
+
+    const response = await fetch(`back-end/referral-code/get-referral-code.php?user_id=${userId}`, {
+        method: 'GET',
+        headers: getCommonHeaders()  // se necessario
     });
     
     if (!response.ok) {

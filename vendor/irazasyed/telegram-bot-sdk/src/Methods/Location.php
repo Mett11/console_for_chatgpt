@@ -35,11 +35,7 @@ trait Location
      *
      * @link https://core.telegram.org/bots/api#sendlocation
      *
-     * @param array $params
-     *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject
      */
     public function sendLocation(array $params): MessageObject
     {
@@ -67,13 +63,11 @@ trait Location
      *
      * @link https://core.telegram.org/bots/api#editmessagelivelocation
      *
-     * @param array $params
+     * @return MessageObject|bool
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject|bool
      */
-    public function editMessageLiveLocation(array $params)
+    public function editMessageLiveLocation(array $params): MessageObject
     {
         $response = $this->post('editMessageLiveLocation', $params);
 
@@ -94,13 +88,11 @@ trait Location
      *
      * @link https://core.telegram.org/bots/api#stopmessagelivelocation
      *
-     * @param array $params
+     * @return MessageObject|bool
      *
      * @throws TelegramSDKException
-     *
-     * @return MessageObject|bool
      */
-    public function stopMessageLiveLocation(array $params)
+    public function stopMessageLiveLocation(array $params): MessageObject
     {
         $response = $this->post('stopMessageLiveLocation', $params);
 

@@ -1,7 +1,7 @@
 <?php
 // update-status.php
 
-require_once '../conn.php';  // Connessione al database
+require_once(__DIR__ . '/../conn.php');  // Connessione al database
 header('Content-Type: application/json');
 
 // Verifica se è stato passato l'user_id

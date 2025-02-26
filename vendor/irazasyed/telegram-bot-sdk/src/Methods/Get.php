@@ -22,8 +22,6 @@ trait Get
      * @link https://core.telegram.org/bots/api#getme
      *
      * @throws TelegramSDKException
-     *
-     * @return User
      */
     public function getMe(): User
     {
@@ -45,11 +43,8 @@ trait Get
      *       'limit'   => '',  // int - (Optional). Limits the number of photos to be retrieved. Values between 1—100 are accepted. Defaults to 100.
      * ]
      * </code>
-     * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return UserProfilePhotos
      */
     public function getUserProfilePhotos(array $params): UserProfilePhotos
     {
@@ -73,11 +68,8 @@ trait Get
      *       'file_id' => '',  // string - Required. File identifier to get info about
      * ]
      * </code>
-     * @param array $params
      *
      * @throws TelegramSDKException
-     *
-     * @return File
      */
     public function getFile(array $params): File
     {

@@ -78,7 +78,7 @@ export function onDomReadyBuyItem() {
                 })
                 .catch(error => console.error('API Error:', error));
             } else {
-              showPopup("Saldo insufficiente per procedere con l'acquisto.");
+              showPopup("Insufficient balance");
             }
           });
       });

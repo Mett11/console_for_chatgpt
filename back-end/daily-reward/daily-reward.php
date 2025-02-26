@@ -3,8 +3,8 @@
 session_start();
 // Impostiamo il tipo di contenuto come JSON
 header('Content-Type: application/json');
-require_once '../conn.php';
-require_once '../verify-token.php'; // Includi il file che contiene la funzione per verificare il token
+require_once(__DIR__ . '/../conn.php');
+require_once(__DIR__ . '/../verify-token.php'); // Includi il file che contiene la funzione per verificare il token
 
 // Verifica del token
 $token = getBearerToken(); // Recupera il token dalla richiesta
@@ -15,8 +15,6 @@ if (!$token || !verifyAuthorizationHeader($token)) { // Usa la funzione per veri
 
 // Impostiamo il fuso orario
 date_default_timezone_set('Europe/Rome');
-
-// Includiamo il file di connessione al database
 
 
 // Funzione per ottenere la data odierna
@@ -99,7 +97,7 @@ function checkAndClaim($user_id) {
                 $new_points = 300;
                 break;
             case 7:
-                $new_points = 500;
+                $new_points = 400;
                 break;
             default:
                 $new_points = 50; // Punti base dopo il ciclo di 7 giorni
@@ -115,8 +113,11 @@ function checkAndClaim($user_id) {
     }
 }
 
+$data = json_decode(file_get_contents('php://input'), true);
+
+
 // Supponiamo che l'ID dell'utente sia passato tramite sessione
-$user_id = $_SESSION['my_session_userid']; // Questo dovrebbe essere già definito
+$user_id = $data['user_id']; // Questo dovrebbe essere già definito
 $response = checkAndClaim($user_id);
 
 // Restituiamo la risposta in formato JSON

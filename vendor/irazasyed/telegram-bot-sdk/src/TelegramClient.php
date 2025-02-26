@@ -8,44 +8,28 @@ use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\HttpClients\GuzzleHttpClient;
 use Telegram\Bot\HttpClients\HttpClientInterface;
 
-/**
- * Class TelegramClient.
- */
-class TelegramClient
+final class TelegramClient
 {
-    /** @var string Telegram Bot API URL. */
-    const BASE_BOT_URL = 'https://api.telegram.org/bot';
+    public const BASE_BOT_URL = 'https://api.telegram.org/bot';
 
-    /** @var HttpClientInterface|null HTTP Client. */
-    protected $httpClientHandler;
+    private string $fileUrl = '{BASE_BOT_URL}/file/bot{TOKEN}/{FILE_PATH}';
 
-    /**
-     * Instantiates a new TelegramClient object.
-     *
-     * @param HttpClientInterface|null $httpClientHandler
-     */
-    public function __construct(HttpClientInterface $httpClientHandler = null)
+    private HttpClientInterface $httpClientHandler;
+
+    private string $baseBotUrl;
+
+    public function __construct(?HttpClientInterface $httpClientHandler = null, ?string $baseBotUrl = null)
     {
         $this->httpClientHandler = $httpClientHandler ?? new GuzzleHttpClient();
+
+        $this->baseBotUrl = $baseBotUrl ?? self::BASE_BOT_URL;
     }
 
-    /**
-     * Returns the HTTP client handler.
-     *
-     * @return HttpClientInterface
-     */
-    public function getHttpClientHandler()
+    public function getHttpClientHandler(): HttpClientInterface
     {
-        return $this->httpClientHandler;
+        return $this->httpClientHandler ?? new GuzzleHttpClient();
     }
 
-    /**
-     * Sets the HTTP client handler.
-     *
-     * @param HttpClientInterface $httpClientHandler
-     *
-     * @return TelegramClient
-     */
     public function setHttpClientHandler(HttpClientInterface $httpClientHandler): self
     {
         $this->httpClientHandler = $httpClientHandler;
@@ -53,95 +37,93 @@ class TelegramClient
         return $this;
     }
 
-    /**
-     * Send an API request and process the result.
-     *
-     * @param TelegramRequest $request
-     *
-     * @throws TelegramSDKException
-     *
-     * @return TelegramResponse
-     */
     public function sendRequest(TelegramRequest $request): TelegramResponse
     {
         [$url, $method, $headers, $isAsyncRequest] = $this->prepareRequest($request);
+        $options = $this->getOptions($request, $method);
 
-        $options = $this->getOption($request, $method);
+        $rawResponse = $this->httpClientHandler
+            ->setTimeOut($request->getTimeOut())
+            ->setConnectTimeOut($request->getConnectTimeOut())
+            ->send($url, $method, $headers, $options, $isAsyncRequest);
 
-        $rawResponse = $this->getHttpClientHandler()
+        $response = $this->getResponse($request, $rawResponse);
+
+        if ($response->isError()) {
+            throw $response->getThrownException();
+        }
+
+        return $response;
+    }
+
+    /**
+     * Get File URL.
+     */
+    public function getFileUrl(string $path, TelegramRequest $request): string
+    {
+        $baseFileUrl = str_replace('/bot', '', $this->baseBotUrl);
+
+        return str_replace(
+            ['{BASE_BOT_URL}', '{TOKEN}', '{FILE_PATH}'],
+            [$baseFileUrl, $request->getAccessToken(), $path],
+            $this->fileUrl
+        );
+    }
+
+    /**
+     * Download file from Telegram server for given file path.
+     *
+     * @param  string  $filePath  File path on Telegram server.
+     * @param  string  $filename  Download path to save file.
+     *
+     * @throws TelegramSDKException
+     */
+    public function download(string $filePath, string $filename, TelegramRequest $request): string
+    {
+        $fileDir = dirname($filename);
+
+        // Ensure dir is created.
+        if (! @mkdir($fileDir, 0755, true) && ! is_dir($fileDir)) {
+            throw TelegramSDKException::fileDownloadFailed('Directory '.$fileDir.' can\'t be created');
+        }
+
+        $response = $this->httpClientHandler
             ->setTimeOut($request->getTimeOut())
             ->setConnectTimeOut($request->getConnectTimeOut())
             ->send(
-                $url,
-                $method,
-                $headers,
-                $options,
-                $isAsyncRequest
+                $url = $this->getFileUrl($filePath, $request),
+                $request->getMethod(),
+                $request->getHeaders(),
+                ['sink' => $filename],
+                $request->isAsyncRequest()
             );
 
-        $returnResponse = $this->getResponse($request, $rawResponse);
-
-        if ($returnResponse->isError()) {
-            throw $returnResponse->getThrownException();
+        if ($response->getStatusCode() !== 200) {
+            throw TelegramSDKException::fileDownloadFailed($response->getReasonPhrase(), $url);
         }
 
-        return $returnResponse;
+        return $filename;
     }
 
-    /**
-     * Prepares the API request for sending to the client handler.
-     *
-     * @param TelegramRequest $request
-     *
-     * @return array
-     */
     public function prepareRequest(TelegramRequest $request): array
     {
-        $url = $this->getBaseBotUrl() . $request->getAccessToken() . '/' . $request->getEndpoint();
+        $url = $this->baseBotUrl.$request->getAccessToken().'/'.$request->getEndpoint();
 
-        return [
-            $url,
-            $request->getMethod(),
-            $request->getHeaders(),
-            $request->isAsyncRequest(),
-        ];
+        return [$url, $request->getMethod(), $request->getHeaders(), $request->isAsyncRequest()];
     }
 
-    /**
-     * Returns the base Bot URL.
-     *
-     * @return string
-     */
     public function getBaseBotUrl(): string
     {
-        return static::BASE_BOT_URL;
+        return $this->baseBotUrl;
     }
 
-    /**
-     * Creates response object.
-     *
-     * @param TelegramRequest                    $request
-     * @param ResponseInterface|PromiseInterface $response
-     *
-     * @return TelegramResponse
-     */
-    protected function getResponse(TelegramRequest $request, $response): TelegramResponse
+    private function getResponse(TelegramRequest $request, ResponseInterface|PromiseInterface|null $response): TelegramResponse
     {
         return new TelegramResponse($request, $response);
     }
 
-    /**
-     * @param TelegramRequest $request
-     * @param string $method
-     *
-     * @return array
-     */
-    private function getOption(TelegramRequest $request, $method)
+    private function getOptions(TelegramRequest $request, string $method): array
     {
-        if ($method === 'POST') {
-            return $request->getPostParams();
-        }
-
-        return ['query' => $request->getParams()];
+        return $method === 'POST' ? $request->getPostParams() : ['query' => $request->getParams()];
     }
 }

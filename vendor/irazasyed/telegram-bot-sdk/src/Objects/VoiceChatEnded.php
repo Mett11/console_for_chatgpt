@@ -7,12 +7,12 @@ namespace Telegram\Bot\Objects;
  *
  * @link https://core.telegram.org/bots/api#voicechatended
  *
- * @property int $duration         Voice chat duration in seconds
+ * @property int $duration Voice chat duration in seconds
  */
 class VoiceChatEnded extends BaseObject
 {
-    /** @inheritDoc */
-    public function relations()
+    /** {@inheritDoc} */
+    public function relations(): array
     {
         return [];
     }

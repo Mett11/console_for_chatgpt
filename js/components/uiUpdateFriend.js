@@ -19,7 +19,7 @@ export async function displayFriends(userId) {
             point_friend.classList.add("point_friend");
             
             id_friend.textContent = `Friend: ${friend.invited_id}`;
-            point_friend.textContent = "1000 $CNSL";
+            point_friend.textContent = "3000 $CNSL";
 
             listItem.append(id_friend);
             listItem.append(point_friend);
@@ -27,8 +27,17 @@ export async function displayFriends(userId) {
         });
 
         // Calcola il totale dei punti
-        const totalPoints = friends.length * 1000;  // 1000 punti per ogni amico invitato
+        const totalPoints = friends.length * 3000;  // 1000 punti per ogni amico invitato
         totalPointElement.textContent = `${totalPoints} $CNSL`;  // Aggiorna il valore dell'elemento
+
+        // Crea il contatore dinamicamente e posizionalo dopo la lista
+        const invitedCountElement = document.createElement("p");
+        invitedCountElement.classList.add("number-invited-user");
+
+        invitedCountElement.innerHTML = `<span id='header_invited_user'> Invited Users:</span> <span id="invited-count">${friends.length}/15</span>`;
+        
+        // Inserisce il contatore dopo la lista degli amici
+        friendsList.insertAdjacentElement('afterend', invitedCountElement);
 
         // Gestisci la visibilità della freccia
         const arrowElement = document.querySelector('.arrow-bottom-friends');

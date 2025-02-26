@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 use Firebase\JWT\JWT;
@@ -17,41 +16,35 @@ function getBearerToken() {
     return null;
 }
 
+
+
 // Funzione per verificare l'header Authorization e il token
 function verifyAuthorizationHeader($token) {
-    // Leggi l'header Authorization
     $headers = apache_request_headers();
     if (isset($headers['Authorization'])) {
         $authHeader = $headers['Authorization'];
-        $token = str_replace('Bearer ', '', $authHeader); // Rimuovi 'Bearer ' dal token
+        $token = str_replace('Bearer ', '', $authHeader);
 
-        // Verifica il token
         if (verifyToken($token)) {
-            return true; // Token valido
+            return 200; // Token valido
         } else {
-            // Token non valido
-            http_response_code(401);
-            echo json_encode(['error' => 'Invalid token']);
-            return false;
+            return 401; // Token non valido
         }
     } else {
-        // Header Authorization mancante
-        http_response_code(400);
-        echo json_encode(['error' => 'Authorization header missing']);
-        return false;
+        return 400; // Header mancante
     }
 }
+
 
 
 // Verifica del token JWT
 function verifyToken($token) {
-    global $botToken;
+    $secretKey = '7944123584:AAFz-N6nuulgO5IP_lj3WZNbH2UnKZlAuC8'; // Assicurati che sia la stessa usata per generare il token
     try {
-        $decoded = JWT::decode($token, new Key($botToken, 'HS256'));
-        return $decoded;
+        $decoded = JWT::decode($token, new Key($secretKey, 'HS256'));
+        return $decoded; // Restituiamo i dati decodificati
     } catch (Exception $e) {
         return false;
     }
 }
-
 ?>

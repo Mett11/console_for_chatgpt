@@ -7,7 +7,8 @@ export function onDomReadyDailyReward() {
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("daily-reward-button").addEventListener("click", async () => {
                 try {
-                    const data = await check_daily_rewards();
+                    const userid = parseInt($("#user-id").text())
+                    const data = await check_daily_rewards(userid);
 
                     if (data.message === "Claim effettuato") {
                         const userId = parseInt(document.getElementById("user-id").innerText, 10);

@@ -2,6 +2,9 @@
 
 namespace Telegram\Bot\HttpClients;
 
+use GuzzleHttp\Promise\PromiseInterface;
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Interface HttpClientInterface.
  */
@@ -9,52 +12,36 @@ interface HttpClientInterface
 {
     /**
      * Send HTTP request.
-     *
-     * @param string     $url
-     * @param string     $method
-     * @param array      $headers
-     * @param array      $options
-     * @param bool|false $isAsyncRequest
-     *
-     * @return mixed
      */
     public function send(
-        $url,
-        $method,
+        string $url,
+        string $method,
         array $headers = [],
         array $options = [],
-        $isAsyncRequest = false
-    );
+        bool $isAsyncRequest = false
+    ): ResponseInterface|PromiseInterface|null;
 
     /**
      * Get Timeout.
-     *
-     * @return int
      */
     public function getTimeOut(): int;
 
     /**
      * Set Timeout.
      *
-     * @param int $timeOut
-     *
      * @return $this
      */
-    public function setTimeOut($timeOut);
+    public function setTimeOut(int $timeOut): static;
 
     /**
      * Get Connection Timeout.
-     *
-     * @return int
      */
     public function getConnectTimeOut(): int;
 
     /**
      * Set Connection Timeout.
      *
-     * @param int $connectTimeOut
-     *
      * @return $this
      */
-    public function setConnectTimeOut($connectTimeOut);
+    public function setConnectTimeOut(int $connectTimeOut): static;
 }
